@@ -539,7 +539,11 @@ const ARProductViewer = () => {
   const hitTestSourceRef = useRef(null);
   const sessionRef = useRef(null);
   const placedObjectsRef = useRef([]);
-  const API_BASE_URL = import.meta.env.VITE_API_URL || window.location.origin;
+ let API_BASE_URL = import.meta.env.VITE_API_URL || window.location.origin;
+
+// ✅ Remove any trailing slash from the API URL to FIX “//api”
+API_BASE_URL = API_BASE_URL.replace(/\/+$/, "");
+
 
   // Check WebXR support
   useEffect(() => {
@@ -565,8 +569,8 @@ const ARProductViewer = () => {
       let data = await res.json();
       data = data.map((p) => ({
         ...p,
-        modelUrl: `${API_BASE_URL}${p.modelUrl}`,
-        thumbnailUrl: p.thumbnailUrl ? `${API_BASE_URL}${p.thumbnailUrl}` : null
+       modelUrl: `${API_BASE_URL}${p.modelUrl.replace(/^\/+/, "")}`,
+thumbnailUrl: p.thumbnailUrl ? `${API_BASE_URL}${p.thumbnailUrl.replace(/^\/+/, "")}` : null
       }));
       
       setProducts(data);
