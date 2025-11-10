@@ -53,8 +53,11 @@ API_BASE_URL = API_BASE_URL.replace(/\/+$/, "");
       let data = await res.json();
       data = data.map((p) => ({
         ...p,
-       modelUrl: `${API_BASE_URL}${p.modelUrl.replace(/^\/+/, "")}`,
-thumbnailUrl: p.thumbnailUrl ? `${API_BASE_URL}${p.thumbnailUrl.replace(/^\/+/, "")}` : null
+      modelUrl: `${API_BASE_URL}/${p.modelUrl.replace(/^\/+/, "")}`,
+thumbnailUrl: p.thumbnailUrl
+  ? `${API_BASE_URL}/${p.thumbnailUrl.replace(/^\/+/, "")}`
+  : null
+
       }));
       
       setProducts(data);
