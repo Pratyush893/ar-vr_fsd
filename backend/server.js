@@ -15,19 +15,6 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 
-/* ---------------------------------------------------
- ✅ 1. CORS MUST COME FIRST (BEFORE STATIC FILES)
---------------------------------------------------- */
-// app.use(
-//   cors({
-//     origin: process.env.FRONTEND_URL?.split(",") || [
-//       "https://localhost:3000",
-//       "http://localhost:3000",
-//     ],
-//     methods: ["GET", "POST", "PUT"],
-//     credentials: true,
-//   })
-// );
 
 app.use(
   cors({
@@ -42,7 +29,7 @@ app.use(
 );
 
 // ✅ handle preflight
-app.options("*", cors());
+app.use(cors());
 
 
 app.use(express.json());
