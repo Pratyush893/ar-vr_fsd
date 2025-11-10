@@ -18,16 +18,32 @@ const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 /* ---------------------------------------------------
  ✅ 1. CORS MUST COME FIRST (BEFORE STATIC FILES)
 --------------------------------------------------- */
+// app.use(
+//   cors({
+//     origin: process.env.FRONTEND_URL?.split(",") || [
+//       "https://localhost:3000",
+//       "http://localhost:3000",
+//     ],
+//     methods: ["GET", "POST", "PUT"],
+//     credentials: true,
+//   })
+// );
+
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL?.split(",") || [
-      "https://localhost:3000",
-      "http://localhost:3000",
-    ],
-    methods: ["GET", "POST", "PUT"],
+    origin: [
+      process.env.FRONTEND_URL,                    // ✅ Vercel domain
+      "http://localhost:3000",                     // ✅ for local testing
+      "https://localhost:3000"
+    ].filter(Boolean),                             // ✅ removes undefined/null
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     credentials: true,
   })
 );
+
+// ✅ handle preflight
+app.options("*", cors());
+
 
 app.use(express.json());
 
